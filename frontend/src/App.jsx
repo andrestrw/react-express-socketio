@@ -1,3 +1,5 @@
+import "./index.css";
+
 import io from "socket.io-client";
 import { useState, useEffect } from "react";
 
@@ -31,22 +33,32 @@ const App = () => {
     setMessages((state) => [...state, message]);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="h-screen bg-zinc-800 text-white flex items-center justify-center">
+      <form onSubmit={handleSubmit} className="bg-zinc-900 p-10 ">
+        <h1 className="text-2xl font-bold my-2 ">Chat React</h1>
         <input
           type="text"
           placeholder="Write wour message..."
+          className="border-2 text-black border-zinc-500 p-2 w-full"
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button>Send</button>
+        <ul>
+          {messages.map((message, i) => (
+            <li
+              key={i}
+              className={`my-2 p-2 table rounded-md ${
+                message.from === "Me" ? "bg-sky-700" : `bg-black ml-auto`
+              }`}
+            >
+              <span className="text-xs text-slate-300 block ">
+                {message.from}
+              </span>
+
+              <span className="text-md">{message.body}</span>
+            </li>
+          ))}
+        </ul>
       </form>
-      <ul>
-        {messages.map((message, i) => (
-          <li key={i}>
-            {message.from}:{message.body}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
